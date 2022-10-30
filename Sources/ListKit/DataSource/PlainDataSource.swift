@@ -10,6 +10,7 @@ import UIKit
 open class PlainDataSource: NSObject, ListKitDataSource, UICollectionViewDataSource {
     public var layout: ComposeLayout?
     public weak var collectionView: UICollectionView?
+    public var supplementaryComponents: [String: AnySupplementaryComponent] = [:]
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let layout = layout else { return 0 }
@@ -46,7 +47,7 @@ open class PlainDataSource: NSObject, ListKitDataSource, UICollectionViewDataSou
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kind, for: indexPath)
-        if let anySupplementaryComponent = SupplementaryComponentManager.shared[kind], let contentView = anySupplementaryComponent.contentView() as? UIView {
+        if let anySupplementaryComponent = supplementaryComponents[kind], let contentView = anySupplementaryComponent.contentView() as? UIView {
             
             view.viewWithTag(ListKit.componentContentViewTag)?.removeFromSuperview()
             contentView.tag = ListKit.componentContentViewTag

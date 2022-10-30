@@ -10,6 +10,7 @@ import UIKit
 public protocol ListKitDataSource: ComponentQueryable {
     /// UICollectionView that uses this DataSource
     var collectionView: UICollectionView? { get set }
+    var supplementaryComponents: [String: AnySupplementaryComponent] { get set }
     /// Configure UICollectionViewCell if needed
     func configure(cell: UICollectionViewCell)
 }

@@ -11,6 +11,7 @@ open class DiffableDataSource: ListKitDataSource {
     public var layout: ComposeLayout?
     public weak var collectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, AnyComponent>?
+    public var supplementaryComponents: [String: AnySupplementaryComponent] = [:]
     
     public init() {
     }
@@ -41,9 +42,9 @@ open class DiffableDataSource: ListKitDataSource {
                 return cell
             }
             
-            self.dataSource?.supplementaryViewProvider = { (collectionView, kind, indexPath) in
+            self.dataSource?.supplementaryViewProvider = { [weak self] (collectionView, kind, indexPath) in
                 let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kind, for: indexPath)
-                if let anySupplementaryComponent = SupplementaryComponentManager.shared[kind], let contentView = anySupplementaryComponent.contentView() as? UIView {
+                if let anySupplementaryComponent = self?.supplementaryComponents[kind], let contentView = anySupplementaryComponent.contentView() as? UIView {
                     
                     view.viewWithTag(ListKit.componentContentViewTag)?.removeFromSuperview()
                     contentView.tag = ListKit.componentContentViewTag

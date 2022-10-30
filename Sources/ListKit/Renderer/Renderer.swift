@@ -58,7 +58,6 @@ public class ComposeRenderer {
     }
     
     /// The boundary to reference when defining content insets.
-    @available(iOS 14.0, *)
     public lazy var contentInsetsReference: UIContentInsetsReference = .safeArea {
         didSet {
             if self.configuration == nil {
@@ -86,6 +85,7 @@ public class ComposeRenderer {
         self.compose = compose
         self.registerSupplementaryViews()
         self.dataSource?.layout = self.compose
+        self.dataSource?.supplementaryComponents = SupplementaryComponentManager.shared.supplementaryComponentMap
         self.delegate.layout = self.compose
         self.target?.setCollectionViewLayout(compose.layout, animated: animated)
         applySnapshotIfDiffableDatasource(animated: animated)
@@ -97,6 +97,7 @@ public class ComposeRenderer {
         self.compose = compose
         self.registerSupplementaryViews()
         self.dataSource?.layout = self.compose
+        self.dataSource?.supplementaryComponents = SupplementaryComponentManager.shared.supplementaryComponentMap
         self.delegate.layout = self.compose
         self.target?.setCollectionViewLayout(compose.layout, animated: animated)
         applySnapshotIfDiffableDatasource(animated: animated)
